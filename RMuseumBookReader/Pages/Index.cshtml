@@ -1,0 +1,63 @@
+﻿@page "{book?}"
+@model IndexModel
+@{
+    ViewData["Title"] = Model.BookName;
+}
+
+    <script>
+
+    var br = null;
+
+    //
+    // This file shows the minimum you need to provide to BookReader to display a book
+    //
+    // Copyright(c)2008-2009 Internet Archive. Software license AGPL version 3.
+
+    // Create the BookReader object
+    function instantiateBookReader(selector, extraOptions) {
+        selector = selector || '#BookReader';
+        extraOptions = extraOptions || {};
+        var options = {
+            data: @Html.Raw(Model.BookDataArray),
+
+            // Book title and the URL used for the book title link
+            bookTitle: '@Model.BookName',
+            bookUrl: '@Model.BookUrl',
+            bookUrlText: 'برگشت به این تصویر از @Model.BookName در گنجینهٔ گنجور',
+            bookUrlTitle: 'برای مشاهدهٔ تصاویر با کیفیت اصلی و ثبت یادداشتهای شخصی و عمومی و ... به گنجینهٔ گنجور مراجعه کنید.',
+
+
+            // thumbnail is optional, but it is used in the info dialog
+            thumbnail: '@Model.BookThumbnail',
+            // Metadata is optional, but it is used in the info dialog
+            metadata: [
+                { label: 'نرم‌افزار کتابخوان', value: '<a href="https://openlibrary.org/dev/docs/bookreader">Internet Archive BookReader</a>' },
+                { label: 'عنوان کتاب', value: '@Model.BookName' },
+                { label: 'توضیحات', value: '@Model.BookDescription' },                
+            ],
+
+            // Override the path used to find UI images
+            imagesBaseURL: './BookReader/images/',
+
+            ui: 'full', // embed, full (responsive)
+
+            el: selector,
+        };
+        Object.assign(options, extraOptions);
+        br = new BookReader(options);
+        br.init();
+    }
+
+        function locationHashChanged() {
+            $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(4, '0'));
+        
+    }
+
+    window.onhashchange = locationHashChanged;
+
+
+    </script>
+
+<div id="BookReader"></div>
+
+<script>instantiateBookReader('#BookReader')</script>
