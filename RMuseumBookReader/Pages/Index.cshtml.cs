@@ -9,7 +9,7 @@ namespace RMuseumBookReader.Pages
     {
         public async Task OnGetAsync(string book = "loc-m089-sehr-e-halal")
         {
-            string url = $"https://ganjgah.ir/api/artifacts/{book}";
+            string url = $"https://api.ganjoor.net/api/artifacts/{book}";
             using (var client = new HttpClient())
             {
 
@@ -23,7 +23,7 @@ namespace RMuseumBookReader.Pages
                         BookName = parsed.SelectToken("name").Value<string>();
                         BookDescription = parsed.SelectToken("description").Value<string>();
                         BookUrl = $"https://museum.ganjoor.net/items/{book}";
-                        BookThumbnail = $"https://ganjgah.ir/api/images/norm/{parsed.SelectToken("coverImageId").Value<string>()}.jpg";
+                        BookThumbnail = $"https://api.ganjoor.net/api/images/norm/{parsed.SelectToken("coverImageId").Value<string>()}.jpg";
 
                         BookDataArray = "";
 
@@ -32,7 +32,7 @@ namespace RMuseumBookReader.Pages
                             BookDataArray += "[{";
                             BookDataArray += $"width:{image.SelectToken("normalSizeImageWidth").Value<string>()}, " +
                                 $"height:{image.SelectToken("normalSizeImageHeight").Value<string>()}," +
-                                $"uri:'https://ganjgah.ir/api/images/norm/{image.SelectToken("id").Value<string>()}.jpg'";
+                                $"uri:'https://api.ganjoor.net/api/images/norm/{image.SelectToken("id").Value<string>()}.jpg'";
                             BookDataArray += "}],";
                         }
 
