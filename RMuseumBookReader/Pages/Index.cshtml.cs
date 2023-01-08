@@ -23,7 +23,7 @@ namespace RMuseumBookReader.Pages
                         BookName = parsed.SelectToken("name").Value<string>();
                         BookDescription = parsed.SelectToken("description").Value<string>();
                         BookUrl = $"https://museum.ganjoor.net/items/{book}";
-                        BookThumbnail = $"https://api.ganjoor.net/api/images/norm/{parsed.SelectToken("coverImageId").Value<string>()}.jpg";
+                        BookThumbnail = parsed.SelectToken("coverImage").SelectToken("externalNormalSizeImageUrl").Value<string>().Replace("/norm/", "/thumb/").Replace("/orig", "thumb/");
 
                         BookDataArray = "";
 
@@ -32,7 +32,7 @@ namespace RMuseumBookReader.Pages
                             BookDataArray += "[{";
                             BookDataArray += $"width:{image.SelectToken("normalSizeImageWidth").Value<string>()}, " +
                                 $"height:{image.SelectToken("normalSizeImageHeight").Value<string>()}," +
-                                $"uri:'https://api.ganjoor.net/api/images/norm/{image.SelectToken("id").Value<string>()}.jpg'";
+                                $"uri:'{image.SelectToken("externalNormalSizeImageUrl").Value<string>()}'";
                             BookDataArray += "}],";
                         }
 
