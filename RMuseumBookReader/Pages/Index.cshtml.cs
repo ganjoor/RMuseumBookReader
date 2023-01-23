@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace RMuseumBookReader.Pages
     {
         public async Task OnGetAsync(string book = "loc-m089-sehr-e-halal")
         {
-            string url = $"https://api.ganjoor.net/api/artifacts/{book}";
+            string url = $"{Configuration["APIRoot"]}/api/artifacts/{book}";
             using (var client = new HttpClient())
             {
 
@@ -70,5 +71,12 @@ namespace RMuseumBookReader.Pages
         /// Book Thumbnail
         /// </summary>
         public string BookThumbnail { get; set; }
+
+        public IConfiguration Configuration;
+
+        public IndexModel(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
     }
 }
