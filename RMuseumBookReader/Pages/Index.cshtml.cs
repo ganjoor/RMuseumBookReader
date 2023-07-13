@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RMuseumBookReader.Pages
@@ -23,7 +24,8 @@ namespace RMuseumBookReader.Pages
                         var parsed = JObject.Parse(json);
 
                         BookName = parsed.SelectToken("name").Value<string>();
-                        BookDescription = parsed.SelectToken("description").Value<string>();
+                        BookDescription = parsed.SelectToken("description").Value<string>().Replace("'", "").Replace("\"", "");
+                        
                         BookUrl = $"https://museum.ganjoor.net/items/{book}";
                         BookThumbnail = parsed.SelectToken("coverImage").SelectToken("externalNormalSizeImageUrl").Value<string>().Replace("/norm/", "/thumb/").Replace("/orig/", "/thumb/");
 
