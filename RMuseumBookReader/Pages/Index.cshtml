@@ -57,4 +57,12 @@
 
 <div id="BookReader"></div>
 
-<script>instantiateBookReader('#BookReader')</script>
+<script>
+    if (window.matchMedia('screen and (max-width: 768px)').matches) {
+        instantiateBookReader('#BookReader', { defaults: 'mode/1up' })
+    }
+    else{
+        instantiateBookReader('#BookReader')
+    }
+</script>
+    
