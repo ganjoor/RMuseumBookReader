@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace RMuseumBookReader.Pages
@@ -24,7 +25,7 @@ namespace RMuseumBookReader.Pages
                         BookName = parsed.SelectToken("name").Value<string>();
                         BookDescription = parsed.SelectToken("description").Value<string>();
                         BookUrl = $"https://museum.ganjoor.net/items/{book}";
-                        BookThumbnail = parsed.SelectToken("coverImage").SelectToken("externalNormalSizeImageUrl").Value<string>().Replace("/norm/", "/thumb/").Replace("/orig", "thumb/");
+                        BookThumbnail = parsed.SelectToken("coverImage").SelectToken("externalNormalSizeImageUrl").Value<string>().Replace("/norm/", "/thumb/").Replace("/orig/", "/thumb/");
 
                         BookDataArray = "";
 
@@ -38,6 +39,8 @@ namespace RMuseumBookReader.Pages
                         }
 
                         BookDataArray = $"[{BookDataArray}]";
+
+                        ViewData["Title"] = BookName;
                     }
                     else
                     {

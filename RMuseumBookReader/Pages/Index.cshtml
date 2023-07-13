@@ -1,8 +1,6 @@
 ﻿@page "{book?}"
 @model IndexModel
-@{
-    ViewData["Title"] = Model.BookName;
-}
+
 
     <script>
 
@@ -21,18 +19,18 @@
             data: @Html.Raw(Model.BookDataArray),
 
             // Book title and the URL used for the book title link
-            bookTitle: '@Model.BookName',
-            bookUrl: '@Model.BookUrl',
-            bookUrlText: 'برگشت به این تصویر از @Model.BookName در گنجینهٔ گنجور',
+            bookTitle: '@Html.Raw(Model.BookName)',
+            bookUrl: '@Html.Raw(Model.BookUrl)',
+            bookUrlText: 'برگشت به این تصویر از @Html.Raw(Model.BookName) در گنجینهٔ گنجور',
             bookUrlTitle: 'برای مشاهدهٔ تصاویر با کیفیت اصلی و ثبت یادداشتهای شخصی و عمومی و ... به گنجینهٔ گنجور مراجعه کنید.',
             pageProgression: 'rl',
             // thumbnail is optional, but it is used in the info dialog
-            thumbnail: '@Model.BookThumbnail',
+            thumbnail: '@Html.Raw(Model.BookThumbnail)',
             // Metadata is optional, but it is used in the info dialog
             metadata: [
                 { label: 'نرم‌افزار کتابخوان', value: '<a href="https://openlibrary.org/dev/docs/bookreader">Internet Archive BookReader</a>' },
-                { label: 'عنوان کتاب', value: '@Model.BookName' },
-                { label: 'توضیحات', value: '@Model.BookDescription' },     
+                { label: 'عنوان کتاب', value: '@Html.Raw(Model.BookName)' },
+                { label: 'توضیحات', value: '@Html.Raw(Model.BookDescription)' },     
             ],
 
             // Override the path used to find UI images
