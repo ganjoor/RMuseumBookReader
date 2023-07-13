@@ -25,7 +25,6 @@ namespace RMuseumBookReader.Pages
 
                         BookName = parsed.SelectToken("name").Value<string>();
                         BookDescription = parsed.SelectToken("description").Value<string>().Replace("'", "").Replace("\"", "");
-                        
                         BookUrl = $"https://museum.ganjoor.net/items/{book}";
                         BookThumbnail = parsed.SelectToken("coverImage").SelectToken("externalNormalSizeImageUrl").Value<string>().Replace("/norm/", "/thumb/").Replace("/orig/", "/thumb/");
 
