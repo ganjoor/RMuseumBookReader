@@ -2,7 +2,7 @@
 @model IndexModel
 
 
-    <script>
+<script>
 
     var br = null;
 
@@ -30,7 +30,7 @@
             metadata: [
                 { label: 'نرم‌افزار کتابخوان', value: '<a href="https://openlibrary.org/dev/docs/bookreader">Internet Archive BookReader</a>' },
                 { label: 'عنوان کتاب', value: '@Html.Raw(Model.BookName)' },
-                { label: 'توضیحات', value: '@Html.Raw(Model.BookDescription)' },     
+                { label: 'توضیحات', value: '@Html.Raw(Model.BookDescription)' },
             ],
 
             // Override the path used to find UI images
@@ -45,15 +45,19 @@
         br.init();
     }
 
-        function locationHashChanged() {
+    function locationHashChanged() {
+        if(br.options.bookUrl == 'https://museum.ganjoor.net/items/ai'){
+            $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(8, '0'));
+        }
+        else{
             $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(4, '0'));
-        
+        }
     }
 
     window.onhashchange = locationHashChanged;
 
 
-    </script>
+</script>
 
 <div id="BookReader"></div>
 
@@ -65,4 +69,3 @@
         instantiateBookReader('#BookReader')
     }
 </script>
-    

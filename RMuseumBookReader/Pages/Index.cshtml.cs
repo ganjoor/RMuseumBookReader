@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RMuseumBookReader.Pages
 {
@@ -12,7 +14,7 @@ namespace RMuseumBookReader.Pages
     {
         public async Task OnGetAsync(string book = "loc-m089-sehr-e-halal")
         {
-            string url = $"{Configuration["APIRoot"]}/api/artifacts/{book}";
+            string url = $"{Configuration["APIRoot"]}/api/artifacts/limited/{book}/21";
             using (var client = new HttpClient())
             {
 
@@ -38,6 +40,22 @@ namespace RMuseumBookReader.Pages
                                 $"uri:'{image.SelectToken("externalNormalSizeImageUrl").Value<string>()}'";
                             BookDataArray += "}],";
                         }
+
+                        int imageCount = parsed.SelectToken("itemCount").Value<int>();
+                        if (imageCount > 0)
+                        {
+                            JToken image = parsed.SelectTokens("$.items[*].images[0]").First();
+                            for (int i = 21; i < imageCount; i++)
+                            {
+                                string imageUrl = book == "ai" ? $"https://i.ganjoor.net/images/{book}/orig/{$"{i}".PadLeft(7, '0')}.jpg" : $"https://i.ganjoor.net/images/{book}/norm/{$"{i}".PadLeft(4, '0')}.jpg";
+                                BookDataArray += "[{";
+                                BookDataArray += $"width:{image.SelectToken("normalSizeImageWidth").Value<string>()}, " +
+                                    $"height:{image.SelectToken("normalSizeImageHeight").Value<string>()}," +
+                                    $"uri:'{imageUrl}'";
+                                BookDataArray += "}],";
+                            }
+                        }
+                        
 
                         BookDataArray = $"[{BookDataArray}]";
 
