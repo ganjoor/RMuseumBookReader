@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <UserSecretsId>e05b4877-ae79-42b7-a0ca-b9c4b94d994e</UserSecretsId>
     <StartupObject>RMuseumBookReader.Program</StartupObject>

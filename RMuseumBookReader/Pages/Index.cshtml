@@ -47,7 +47,7 @@
 
     function locationHashChanged() {
         if(br.options.bookUrl == 'https://museum.ganjoor.net/items/ai'){
-            $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(8, '0'));
+            $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(7, '0'));
         }
         else{
             $('a.BRreturn').attr('href', '@Model.BookUrl/p' + (br.currentIndex() + 1).toString().padStart(4, '0'));

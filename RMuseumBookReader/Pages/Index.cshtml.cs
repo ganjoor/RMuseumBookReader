@@ -45,7 +45,7 @@ namespace RMuseumBookReader.Pages
                         if (imageCount > 0)
                         {
                             JToken image = parsed.SelectTokens("$.items[*].images[0]").First();
-                            for (int i = 21; i < imageCount; i++)
+                            for (int i = 22; i < imageCount; i++)
                             {
                                 string imageUrl = book == "ai" ? $"https://i.ganjoor.net/images/{book}/orig/{$"{i}".PadLeft(7, '0')}.jpg" : $"https://i.ganjoor.net/images/{book}/norm/{$"{i}".PadLeft(4, '0')}.jpg";
                                 BookDataArray += "[{";
