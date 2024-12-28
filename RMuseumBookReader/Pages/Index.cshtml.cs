@@ -14,7 +14,7 @@ namespace RMuseumBookReader.Pages
     {
         public async Task OnGetAsync(string book = "loc-m089-sehr-e-halal")
         {
-            string url = $"{Configuration["APIRoot"]}/api/artifacts/limited/{book}/21";
+            string url = book == "ai" ? $"{Configuration["APIRoot"]}/api/artifacts/limited/{book}/21" : $"{Configuration["APIRoot"]}/api/artifacts/{book}";
             using (var client = new HttpClient())
             {
 
@@ -41,20 +41,24 @@ namespace RMuseumBookReader.Pages
                             BookDataArray += "}],";
                         }
 
-                        int imageCount = parsed.SelectToken("itemCount").Value<int>();
-                        if (imageCount > 0)
+                        if(book == "ai")
                         {
-                            JToken image = parsed.SelectTokens("$.items[*].images[0]").First();
-                            for (int i = 22; i < imageCount; i++)
+                            int imageCount = parsed.SelectToken("itemCount").Value<int>();
+                            if (imageCount > 0)
                             {
-                                string imageUrl = book == "ai" ? $"https://i.ganjoor.net/images/{book}/orig/{$"{i}".PadLeft(7, '0')}.jpg" : $"https://i.ganjoor.net/images/{book}/norm/{$"{i}".PadLeft(4, '0')}.jpg";
-                                BookDataArray += "[{";
-                                BookDataArray += $"width:{image.SelectToken("normalSizeImageWidth").Value<string>()}, " +
-                                    $"height:{image.SelectToken("normalSizeImageHeight").Value<string>()}," +
-                                    $"uri:'{imageUrl}'";
-                                BookDataArray += "}],";
+                                JToken image = parsed.SelectTokens("$.items[*].images[0]").First();
+                                for (int i = 22; i < imageCount; i++)
+                                {
+                                    string imageUrl = book == "ai" ? $"https://i.ganjoor.net/images/{book}/orig/{$"{i}".PadLeft(7, '0')}.jpg" : $"https://i.ganjoor.net/images/{book}/norm/{$"{i}".PadLeft(4, '0')}.jpg";
+                                    BookDataArray += "[{";
+                                    BookDataArray += $"width:{image.SelectToken("normalSizeImageWidth").Value<string>()}, " +
+                                        $"height:{image.SelectToken("normalSizeImageHeight").Value<string>()}," +
+                                        $"uri:'{imageUrl}'";
+                                    BookDataArray += "}],";
+                                }
                             }
                         }
+                        
                         
 
                         BookDataArray = $"[{BookDataArray}]";
